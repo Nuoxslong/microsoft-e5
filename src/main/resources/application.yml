@@ -1,0 +1,28 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: e5-service
+  # 配置数据源
+  datasource:
+    url: jdbc:mysql://81.71.92.18:3306/online_service_certification?autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: nuo_mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # hikari数据源配置，
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      minimum-idle: 5
+  jpa:
+    show-sql: true
+    open-in-view: false
+  thymeleaf:
+    cache: false  #热部署静态文件
+  redis:
+    database: 1
+    port: 6379
+    host: 81.71.92.18
+    password: nuo_redis
