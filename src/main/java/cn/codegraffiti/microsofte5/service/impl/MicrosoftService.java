@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MicrosoftService implements AuthService {
 
     private static final String CLIENT_ID = "654232c8-d7aa-446f-8a15-d65a2bec77b9";
-    private static final String CLIENT_SECRETS = "c0b1a214a618420b6457244e0df9536d295655cd";
+    private static final String CLIENT_SECRETS = "sS845aeT-bg1kf_PS8CY99_KZSxit18C~1";
 
 
     private static final String REDIRECT_URI = "https://service.codegraffiti.cn/auth/microsoft";
