@@ -1,5 +1,6 @@
-package cn.codegraffiti.microsofte5.service;
+package cn.codegraffiti.microsofte5.service.impl;
 
+import cn.codegraffiti.microsofte5.service.AuthService;
 import cn.codegraffiti.microsofte5.entity.GithubUser;
 import cn.codegraffiti.microsofte5.repository.GithubUserRepository;
 import cn.hutool.http.HttpRequest;
@@ -13,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GithubService {
+public class GithubService implements AuthService {
 
     private static final String CLIENT_ID = "839b8af05a1d42c00372";
     private static final String CLIENT_SECRETS = "c0b1a214a618420b6457244e0df9536d295655cd";
 
 
-    private static final String REDIRECT_URI = "http://service.codegraffiti.cn/auth/github";
+    private static final String REDIRECT_URI = "https://service.codegraffiti.cn/auth/github";
 
     // 授权地址
     private static final String GITHUB_AUTH_URL = "https://github.com/login/oauth/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&state=STATE";
@@ -33,6 +34,7 @@ public class GithubService {
     final GithubUserRepository repository;
 
 
+    @Override
     public String auth() {
         String url = GITHUB_AUTH_URL.replace("CLIENT_ID", CLIENT_ID);
         url = url.replace("REDIRECT_URI", REDIRECT_URI);
@@ -40,10 +42,11 @@ public class GithubService {
         return url;
     }
 
+    @Override
     public String call(String code, String state) {
         String accessToken = getAccessToken(code);
         GithubUser userInfo = getUserInfo(accessToken);
-        return null;
+        return userInfo.getName();
     }
 
     public String getAccessToken(String code) {

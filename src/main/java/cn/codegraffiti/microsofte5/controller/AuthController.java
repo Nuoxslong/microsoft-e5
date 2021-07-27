@@ -1,6 +1,6 @@
 package cn.codegraffiti.microsofte5.controller;
 
-import cn.codegraffiti.microsofte5.service.GithubService;
+import cn.codegraffiti.microsofte5.service.impl.GithubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package cn.codegraffiti.microsofte5.service;
+package cn.codegraffiti.microsofte5.service.impl;
 
 import cn.codegraffiti.microsofte5.entity.SystemLog;
 import cn.codegraffiti.microsofte5.repository.SystemLogRepository;

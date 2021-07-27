@@ -1,7 +1,7 @@
 package cn.codegraffiti.microsofte5.controller;
 
-import cn.codegraffiti.microsofte5.service.GithubService;
-import cn.codegraffiti.microsofte5.service.SystemLogService;
+import cn.codegraffiti.microsofte5.service.impl.GithubService;
+import cn.codegraffiti.microsofte5.service.impl.SystemLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
