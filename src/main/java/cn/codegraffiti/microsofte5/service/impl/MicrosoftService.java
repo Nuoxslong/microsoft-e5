@@ -26,8 +26,6 @@ public class MicrosoftService implements AuthService {
     // 获取令牌地址
     private static final String MICROSOFT_ACCESS_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token?client_id=CLIENT_ID&client_secret=CLIENT_SECRET&code=CODE&&redirect_uri=REDIRECT_URI&grant_type=authorization_code";
 
-    // 获取用户信息
-    private static final String USER_INFO_URL = "https://api.github.com/user";
 
     @Override
     public String auth() {
