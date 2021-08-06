@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
-@Service
+@Service("microsoft")
 @RequiredArgsConstructor
 public class MicrosoftService implements AuthService {
 
@@ -20,11 +23,11 @@ public class MicrosoftService implements AuthService {
 
     private static final String REDIRECT_URI = "https://service.codegraffiti.cn/auth/microsoft";
 
-    // 授权地址
+    // 获取邮箱授权地址
     private static final String MICROSOFT_AUTH_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=code&state=STATE&scope=openid offline_access Mail.Read";
 
     // 获取令牌地址
-    private static final String MICROSOFT_ACCESS_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token?client_id=CLIENT_ID&client_secret=CLIENT_SECRET&code=CODE&&redirect_uri=REDIRECT_URI&grant_type=authorization_code";
+    private static final String MICROSOFT_ACCESS_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
 
     @Override
@@ -42,16 +45,35 @@ public class MicrosoftService implements AuthService {
 
 
     public String getAccessToken(String code) {
-        String url = MICROSOFT_ACCESS_URL.replace("CLIENT_ID", CLIENT_ID);
-        url = url.replace("CLIENT_SECRET", CLIENT_SECRETS);
-        url = url.replace("CODE", code);
-        url = url.replace("REDIRECT_URI", REDIRECT_URI);
-        HttpRequest httpRequest = HttpRequest.get(url);
+        HttpRequest httpRequest = HttpRequest.post(MICROSOFT_ACCESS_URL);
         httpRequest.header("accept", "application/x-www-form-urlencoded");
+        Map<String, Object> params = new HashMap<>();
+        params.put("client_id", CLIENT_ID);
+        params.put("client_secret", CLIENT_SECRETS);
+        params.put("code", code);
+        params.put("redirect_uri", REDIRECT_URI);
+        params.put("grant_type", "authorization_code");
+        httpRequest.form(params);
         HttpResponse httpResponse = httpRequest.execute();
         String body = httpResponse.body();
         log.info("body:{}", body);
         JSONObject jsonObject = JSONUtil.parseObj(body);
         return (String) jsonObject.get("access_token");
+    }
+
+    public String getMailList(String accessToken) throws Exception {
+        HttpRequest httpRequest = HttpRequest.post("https://graph.microsoft.com/v1.0/me/messages?$select=sender,subject");
+        httpRequest.contentType("application/json");
+        httpRequest.auth(accessToken);
+        HttpResponse httpResponse = httpRequest.execute();
+        String body = httpResponse.body();
+        log.info("body:{}", body);
+        JSONObject jsonObject = JSONUtil.parseObj(body);
+        return (String) jsonObject.get("access_token");
+    }
+
+    public String getMailContent(String mailId) {
+        HttpRequest httpRequest = HttpRequest.get("https://graph.microsoft.com/v1.0/me/messages/" + mailId);
+        return null;
     }
 }
