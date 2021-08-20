@@ -1,8 +1,8 @@
 package cn.codegraffiti.microsofte5.service.impl;
 
-import cn.codegraffiti.microsofte5.service.AuthService;
 import cn.codegraffiti.microsofte5.entity.GithubUser;
 import cn.codegraffiti.microsofte5.repository.GithubUserRepository;
+import cn.codegraffiti.microsofte5.service.AuthService;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
@@ -68,14 +68,13 @@ public class GithubService implements AuthService {
         httpRequest.contentType("application/vnd.github.machine-man-preview+json");
         HttpResponse httpResponse = httpRequest.execute();
         String body = httpResponse.body();
-        log.info("body:{}", body);
-
+        log.info("获取github用户信息返回值 body:{}", body);
         JSONObject jsonObject = JSONUtil.parseObj(body);
-        GithubUser user = new GithubUser();
+        String githubId = jsonObject.get("id").toString();
+        GithubUser user = this.repository.findByGithubId(githubId);
         user.setLogin(jsonObject.get("login").toString());
         user.setName(jsonObject.get("name").toString());
         user.setAvatarUrl(jsonObject.get("avatar_url").toString());
-        user.setGithubId(jsonObject.get("id").toString());
         user.setNodeId(jsonObject.get("node_id").toString());
         this.repository.save(user);
         return user;

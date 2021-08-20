@@ -26,3 +26,12 @@ spring:
     port: 6379
     host: 81.71.92.18
     password: nuo_redis
+  rabbitmq:
+    host: 81.71.92.18
+    port: 5672
+    username: root
+    password: nuo_rabbitmq
+  data:
+    redis:
+      repositories:
+        enabled: false

@@ -1,5 +1,6 @@
 package cn.codegraffiti.microsofte5.controller;
 
+import cn.codegraffiti.microsofte5.service.AuthService;
 import cn.codegraffiti.microsofte5.service.impl.GithubService;
 import cn.codegraffiti.microsofte5.service.impl.SystemLogService;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class CallbackController {
 
-    final GithubService githubService;
+    final Map<String, AuthService> authService;
 
     final SystemLogService systemLogService;
 
@@ -35,7 +38,7 @@ public class CallbackController {
         log.info("auth call source: {}", source);
         log.info("auth call code: {}", code);
         log.info("auth call state: {}", state);
-        this.githubService.call(code, state);
+        this.authService.get(source).call(code, state);
         return ResponseEntity.ok().build();
     }
 }
